@@ -1,0 +1,5 @@
+{
+  "name": "warmsea-mono",
+  "private": true,
+  "workspaces": ["packages/*"]
+}
