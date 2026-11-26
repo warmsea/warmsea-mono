@@ -1,0 +1,182 @@
+import { ArgTypes, Meta } from '@storybook/addon-docs/blocks';
+import * as AppBarStories from './AppBar.stories';
+
+<Meta of={AppBarStories} name="Docs" />
+
+<main>
+
+# AppBar
+
+AppBar is a vertical app-navigation rail, not a top bar, tab strip, or nested
+sidebar. It renders a compact icon-only rail with native links, consumer-supplied
+icons, accessible labels, immediate Tooltip hints, and bottom destinations.
+
+## Use
+
+```vue
+<script setup lang="ts">
+import '@warmsea/ui-tokens/style.css';
+import '@warmsea/ui-vue/style.css';
+import { AppBar, type AppBarItem } from '@warmsea/ui-vue';
+
+const items: readonly AppBarItem[] = [
+  { id: 'activity', label: 'Activity', href: '/activity' },
+  {
+    id: 'chat',
+    label: 'Chat',
+    href: '/chat',
+  },
+];
+const bottomItems = [{ id: 'settings', label: 'Settings', href: '/settings' }];
+// This page is /chat. The application derives this value from its location.
+const currentApp = 'chat';
+</script>
+
+<template>
+  <AppBar
+    aria-label="Primary"
+    :items="items"
+    :bottom-items="bottomItems"
+    :active-id="currentApp"
+  >
+    <template #icon="{ active }">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        focusable="false"
+      >
+        <path d="M4 4h16v12H9l-5 4V4Z" :stroke-width="active ? 2.5 : 1.5" />
+      </svg>
+    </template>
+  </AppBar>
+</template>
+```
+
+## Props and item types
+
+<div
+  className="wui-docs-table"
+  role="region"
+  aria-label="AppBar props"
+  tabIndex={0}
+>
+  <ArgTypes of={AppBarStories} include={['items', 'bottomItems', 'activeId']} />
+</div>
+
+`items` is a required readonly array. `bottomItems` defaults to an empty array.
+Empty groups are omitted. `activeId` is optional; missing or unknown IDs leave
+every item unselected, with no first-item fallback.
+
+`AppBarItem` requires nonempty string `id`, `label`, and `href` fields. IDs must
+be unique across both arrays; duplicate IDs are unsupported. Labels always name
+their links through `aria-label` and supply Tooltip hover/focus hints; they are
+not rendered as visible text. `AppBarItem` and `AppBarProps` are publicly exported.
+
+## Icons, attributes, and navigation
+
+The required `icon` scoped slot receives `item` and `active` for each link in
+both groups. Supply noninteractive decorative SVG/content, without focusable
+descendants. The wrapper hides icons from assistive technology; `aria-label`
+names the link. Supply an icon for every destination.
+There is no bundled icon set or arbitrary link-rendering slot.
+
+Native attributes, classes, styles, and listeners fall through to the single
+`nav` root. Supply `aria-label` or `aria-labelledby`, and distinguish multiple
+navigation landmarks by name.
+
+The application owns hrefs and `activeId`. Link activation does not mutate
+selection or emit a synthetic selection event. Derive current state from your
+application's location; Playground demonstrates application-owned fragment
+state. Native listeners bubble through the root, including cancellation.
+Ordinary hrefs may load a new page. AppBar does not intercept clicks, integrate
+with a SPA router, or handle commands/dialogs.
+
+### Activation event
+
+The optional `activate(item, event)` event synchronously supplies the rendered
+`AppBarItem` and original `MouseEvent` on a link's native click, in either group.
+This includes Enter-generated and modified clicks. It does not mutate `activeId`,
+cancel navigation, or stop the original event from bubbling.
+
+Use `@activate="onActivate"` with a typed handler:
+
+```ts
+function onActivate(item: AppBarItem, event: MouseEvent) {
+  event.preventDefault();
+  selected.value = item.id;
+}
+```
+
+Here `selected` is application-owned reactive state bound to `activeId`, as in
+Demos. Cancel synchronously only when the application handles that activation;
+SPA integrations should preserve modified clicks and external destinations.
+Middle-click and context menus keep native behavior and do not emit `activate`.
+Changing `activeId` programmatically also does not emit `activate`.
+
+## Layout and customization
+
+The rail is 3rem wide with a 1.25rem icon box and links at least
+2.75rem high (48px, 20px, and 44px at the default root font size). Muted icons sit
+on the semantic surface, with a short primary marker for the current item,
+neutral hover backgrounds, and inset keyboard focus. There is no filled
+current-item tile.
+There is no outer top/bottom padding: the first top link and last bottom link
+sit flush with the rail edges, while spacing between destinations is preserved.
+
+The consumer owns shell layout, explicit height, placement, and sticky/fixed
+positioning.
+In a bounded-height parent, AppBar fills that height and scrolls when necessary.
+Bottom destinations use spare space, but remain in the same scroll flow.
+
+Existing semantic tokens control appearance. Primary colors current icons
+and the short marker; neutral hover/active backgrounds consume
+`--wui-color-surface-hover` and `--wui-color-surface-active`. When changing a local
+text/surface palette, supply these states explicitly too. Primary-only marker
+overrides do not affect those neutral states. Current state includes an inline-start marker, not color
+alone. Logical properties support RTL. Foundations /
+Customization describes scoped overrides. Validate icon, marker, and
+focus contrast after changing colors.
+
+The shared current marker slides between destinations over 200ms with a
+spring-like easing; color and hover background transition over 80ms. Its
+position tracks actual item geometry, including bottom items, resizing,
+inter-group spacing overrides, and scrolling. The scroll-content container is
+observed so spacing-only changes do not require continuous polling.
+Initial positioning does not animate. All transitions
+are disabled when the user requests reduced motion.
+
+## Accessibility and boundaries
+
+AppBar uses navigation, lists, and native anchors, not menu or tab roles.
+Tab/Shift+Tab follows native link order; Enter activates, and Space retains
+native link behavior. There is no roving tabindex, arrow-key navigation, or
+automatic focus movement.
+
+Current links have `aria-current="page"`. Required labels provide accessible
+names independently of the decorative icons and Tooltip hints.
+Tooltip opens immediately on hover or keyboard focus, prefers inline-end,
+and chooses another side near viewport edges. Escape dismisses without moving
+focus. The hint can be hovered and does not announce the existing label again
+as an accessible description.
+
+Demos outlines each example's actual container to show its full width and height,
+without adding padding around the rail.
+It compares fixed layouts with local selection: click or press Enter on a
+destination to preview its active style without navigating or scrolling away.
+Each demo owns its selection and cancels navigation through `activate(item, event)`;
+the component itself retains native link behavior. Playground demonstrates
+application-owned fragment navigation and interactive Controls.
+`primaryColor` is a Playground control, not a component prop.
+Tooltip uses the native manual-popover layer to escape rail clipping while
+preserving local colors and RTL direction. Unsupported browsers receive
+browser-managed native title hints, not the full custom keyboard tooltip.
+There is no click/tap toggle, arrow, or tooltip animation.
+Badges, visible text labels, collapse/expanded modes, bottom mobile
+navigation, menus, disabled items, reordering, and router adapters are out of scope.
+
+Manually review hover/focus hints, keyboard navigation, screen-reader
+landmark/link/current announcements, Windows high contrast, RTL, and 200% browser
+zoom. Automated accessibility and enlarged-font checks do not replace these reviews.
+
+</main>

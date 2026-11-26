@@ -1,0 +1,121 @@
+import { ArgTypes, Meta } from '@storybook/addon-docs/blocks';
+import * as SelectStories from './Select.stories';
+
+<Meta of={SelectStories} name="Docs" />
+
+<main>
+
+# Select
+
+Choose one value from a fixed list using the browser's native picker.
+Native keyboard type-ahead remains available where the browser supports it.
+
+## Use
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+import '@warmsea/ui-tokens/style.css';
+import '@warmsea/ui-vue/style.css';
+import { Select, type SelectOption } from '@warmsea/ui-vue';
+
+const destination = ref<string | null>(null);
+const options: readonly SelectOption[] = [
+  { value: 'ocean', label: 'Ocean' },
+  { value: 'reef', label: 'Reef', disabled: true },
+  { value: 'coast', label: 'Coast' },
+];
+</script>
+
+<template>
+  <label for="destination">Destination</label>
+  <Select id="destination" v-model="destination" :options="options" />
+</template>
+```
+
+## API
+
+<div
+  className="wui-docs-table"
+  role="region"
+  aria-label="Select props"
+  tabIndex={0}
+>
+  <ArgTypes of={SelectStories} />
+</div>
+
+`SelectProps` and `SelectOption` are public exports. `options` and `modelValue`
+are required. Option values are unique, nonempty strings; labels must be
+nonblank plain text. Duplicate labels are allowed because value is identity.
+Options can be supplied as a readonly array.
+
+`modelValue` is a string or null. Null displays the disabled prompt, whose text
+defaults to "Select an option" and is configurable through `placeholder`.
+The prompt is not a label or a selectable clear action; the parent can clear the
+selection by setting its model to null. Empty string is reserved for the prompt.
+
+The only component event is `update:modelValue(string | null)`. User changes
+emit known enabled string values, not labels. Mounting, prop changes and
+disabling do not emit updates. Unknown or removed values show the prompt while
+preserving the parent's model; a returning matching option restores its label.
+A programmatically selected disabled option can still display its label.
+Consumers keep the model and options consistent.
+
+## Labels and forms
+
+Supply a visible external label through `id`, or an accessible name with
+`aria-label`/`aria-labelledby`. Class, style, ID, descriptions, `form`, and
+supported native listeners target the actual select. Value, role and single-row
+single-selection behavior are component-owned; `multiple` and `size` overrides
+are unsupported. There is no readonly mode.
+
+`name` submits the native selected value. A null prompt, disabled selected
+option, disabled control or disabled fieldset contributes no entry. Unknown
+model strings are not submitted. `required` uses native constraint validation
+to reject the empty prompt; it is not application-level model validation.
+There is no hidden input or custom validation message.
+
+The parent owns reset; native form reset alone does not synchronize Vue state:
+
+```vue
+<form @submit.prevent="submit" @reset.prevent="destination = null">
+  <label for="form-destination">Destination</label>
+  <Select id="form-destination" v-model="destination" :options="options"
+    name="destination" required />
+  <Button type="submit">Submit</Button>
+  <Button type="reset" variant="outlined">Reset</Button>
+</form>
+```
+
+Here `destination`, `options` and `submit` belong to the parent; import Button
+from the public UI package. Do not select the first option implicitly or use a
+prompt as the only accessible name.
+
+## Layout, accessibility and boundaries
+
+The closed control shares Button's text metrics:
+`--wui-font-size-control` (0.875rem), `--wui-line-height-control`
+(`round(140%, 2px)`), and
+`--wui-control-padding-block` (5px above and below content).
+At a 16px root that is 14px text with a 20px line, plus 10px padding and
+two 1px borders: 32px outer height. Larger text grows the control rather than
+being forced into a fixed clipping height.
+It defaults to 16rem wide and fits its container. It uses inherited
+semantic tokens, logical spacing, visible focus, native disabled states and
+system-color boundaries in forced colors. Override its width through class/style.
+
+Opening, navigation, native type-ahead, touch selection and dismissal belong to
+the browser. The closed control uses a text-colored CSS chevron, inset by
+`--wui-space-3` at the inline end with reserved text space and RTL support.
+Forced colors restore the native arrow. The picker remains native; its appearance
+and keyboard details vary by platform and are not themed by the component.
+There is no custom listbox, live region, search draft or popup positioning.
+
+Review native mobile pickers, screen-reader names and selection announcements,
+actual zoom and Windows high contrast manually. Automated checks and
+`selectOption()` do not prove those behaviors.
+
+Multiple selection, optgroups, custom values, option slots, searching, rich
+options, loading and automatic form-reset synchronization are out of scope.
+
+</main>

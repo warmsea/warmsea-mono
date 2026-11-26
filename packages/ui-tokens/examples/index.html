@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Warmsea tokens</title>
+    <link rel="stylesheet" href="../src/index.css" />
+    <style>
+      body {
+        font-family: var(--wui-font-family);
+        font-size: var(--wui-font-size);
+        line-height: var(--wui-line-height);
+        color: var(--wui-color-text);
+        background: var(--wui-color-surface-subtle);
+        max-width: 60rem;
+        margin: 3rem auto;
+        padding: 1rem;
+      }
+      section {
+        margin-block: 2rem;
+        padding: 1rem;
+        background: var(--wui-color-surface);
+        border-radius: var(--wui-radius-control);
+      }
+      .swatches {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--wui-space-4);
+      }
+      .swatch {
+        padding: var(--wui-space-4);
+        border-radius: var(--wui-radius-control);
+        color: var(--wui-color-on-primary);
+        background: var(--wui-color-primary);
+      }
+      .hover {
+        background: var(--wui-color-primary-hover);
+      }
+      .active {
+        background: var(--wui-color-primary-active);
+      }
+      .state-swatches .swatch {
+        color: var(--wui-color-text);
+      }
+      .custom {
+        --wui-color-primary: #9f1239;
+        --wui-color-primary-hover: rgb(139.92 15.84 50.16);
+        --wui-color-primary-active: rgb(120.84 13.68 43.32);
+      }
+      .sunlight {
+        --wui-color-primary: #fcd34d;
+        --wui-color-primary-hover: rgb(221.76 185.68 67.76);
+        --wui-color-primary-active: rgb(191.52 160.36 58.52);
+        --wui-color-on-primary: #292524;
+      }
+      .type-heading {
+        margin: 0;
+        font-size: var(--wui-font-size-heading-3);
+        font-weight: var(--wui-font-weight-semibold);
+        line-height: var(--wui-line-height-heading);
+      }
+      .type-body {
+        font-size: var(--wui-font-size);
+        font-weight: var(--wui-font-weight-regular);
+        line-height: var(--wui-line-height);
+      }
+      .type-emphasis {
+        font-weight: var(--wui-font-weight-semibold);
+      }
+      .editorial {
+        --wui-font-size-heading-3: 2rem;
+        --wui-font-size: 1.25rem;
+        --wui-font-weight-regular: 500;
+      }
+      .editorial-inner {
+        --wui-font-size-heading-3: 1.5rem;
+        --wui-font-weight-regular: 400;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--wui-space-3);
+      }
+      .control {
+        box-sizing: border-box;
+        padding: var(--wui-control-padding-block) var(--wui-space-3);
+        border: var(--wui-border-width) solid var(--wui-color-border);
+        border-radius: var(--wui-radius-control);
+        font-family: var(--wui-font-family);
+        font-size: var(--wui-font-size-control);
+        font-weight: var(--wui-font-weight);
+        line-height: var(--wui-line-height-control);
+        color: var(--wui-color-text);
+        background: var(--wui-color-surface);
+      }
+      .control:focus-visible {
+        outline: var(--wui-focus-width) solid var(--wui-color-focus);
+        outline-offset: var(--wui-focus-offset);
+      }
+      .contrast-sample {
+        padding: var(--wui-space-4);
+        background: var(--wui-color-surface);
+      }
+      .contrast-subtle {
+        background: var(--wui-color-surface-subtle);
+      }
+      .contrast-sample .control {
+        background: inherit;
+      }
+      .spacious-controls {
+        --wui-control-padding-block: 11px;
+        --wui-line-height-control: calc(24 / 14);
+      }
+      .error {
+        color: var(--wui-color-error);
+      }
+      .custom-error {
+        --wui-color-error: #9f1239;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Warmsea tokens</h1>
+      <p>
+        Warm ocean teal, seafoam surfaces, neutral text and disabled colors, and
+        restrained scales. These examples use only HTML and CSS.
+      </p>
+      <section aria-labelledby="default">
+        <h2 id="default">Default ocean</h2>
+        <div class="swatches">
+          <span class="swatch" data-testid="default-base">Primary</span>
+          <span class="swatch hover" data-testid="default-hover">Hover</span>
+          <span class="swatch active" data-testid="default-active">Active</span>
+        </div>
+      </section>
+      <section class="custom" aria-labelledby="custom">
+        <h2 id="custom">Explicit nested primary palette</h2>
+        <p>
+          Each local palette supplies its base, hover and active colors.
+          Base-only overrides do not recalculate inherited state colors.
+        </p>
+        <div class="swatches">
+          <span class="swatch" data-testid="custom-base">Primary</span>
+          <span class="swatch hover" data-testid="custom-hover">Hover</span>
+          <span class="swatch active" data-testid="custom-active">Active</span>
+        </div>
+        <section class="sunlight" aria-labelledby="sunlight">
+          <h3 id="sunlight">Light brand: override foreground too</h3>
+          <div class="swatches">
+            <span class="swatch" data-testid="light-base">Primary</span>
+            <span class="swatch hover">Hover</span>
+            <span class="swatch active">Active</span>
+          </div>
+        </section>
+      </section>
+      <section aria-labelledby="state-roles">
+        <h2 id="state-roles">Other semantic state roles</h2>
+        <div class="swatches state-swatches">
+          <span
+            class="swatch"
+            style="background: var(--wui-color-primary-container)"
+            >Container</span
+          >
+          <span
+            class="swatch"
+            style="background: var(--wui-color-primary-container-hover)"
+            >Container hover</span
+          >
+          <span
+            class="swatch"
+            style="background: var(--wui-color-primary-container-active)"
+            >Container active</span
+          >
+          <span
+            class="swatch"
+            style="background: var(--wui-color-surface-subtle-active)"
+            >Outlined active</span
+          >
+          <span class="swatch" style="background: var(--wui-color-subtle-hover)"
+            >Subtle hover</span
+          >
+          <span
+            class="swatch"
+            style="background: var(--wui-color-subtle-active)"
+            >Subtle active</span
+          >
+          <span
+            class="swatch"
+            style="background: var(--wui-color-surface-hover)"
+            >Surface hover</span
+          >
+          <span
+            class="swatch"
+            style="background: var(--wui-color-surface-active)"
+            >Surface active</span
+          >
+          <span
+            class="swatch"
+            style="background: var(--wui-color-action-highlight)"
+            >Action highlight</span
+          >
+        </div>
+      </section>
+      <section aria-labelledby="scales">
+        <p class="error" data-testid="error-default">Enter a valid value.</p>
+        <div class="custom-error">
+          <p class="error" data-testid="error-scoped">Scoped error color.</p>
+        </div>
+        <h2 id="scales">Spacing and typography</h2>
+        <p>
+          Spacing: 0.25, 0.5, 0.75, 1, 1.25rem. Text: 1rem with 1.25 line-height
+          (16px/20px at a 16px root).
+        </p>
+        <p>Focus: 2px outline with a 3px offset. Control radius: 0.5rem.</p>
+        <h3 class="type-heading" data-testid="type-heading">Heading role</h3>
+        <p class="type-body" data-testid="type-body">
+          Regular body text with
+          <span class="type-emphasis" data-testid="type-emphasis"
+            >semibold text</span
+          >.
+        </p>
+        <div class="editorial">
+          <h3 class="type-heading" data-testid="type-outer-heading">
+            Scoped typography
+          </h3>
+          <p class="type-body" data-testid="type-outer-body">
+            Outer body override.
+          </p>
+          <div class="editorial-inner">
+            <h3 class="type-heading" data-testid="type-inner-heading">
+              Nested typography
+            </h3>
+            <p class="type-body" data-testid="type-inner-body">
+              Nested weight, inherited size.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section aria-labelledby="controls">
+        <h2 id="controls">Control typography</h2>
+        <p>
+          Controls use 0.875rem text (14px at a 16px root) on a 20px line, with
+          5px padding above and below, plus 1px borders: 32px outer height. Body
+          text remains 1rem. Enlarged text grows the control.
+        </p>
+        <div class="controls">
+          <button type="button" class="control" data-testid="control-default">
+            Default control
+          </button>
+        </div>
+        <div class="spacious-controls">
+          <p>
+            Consumers can increase padding and line-height in a local scope.
+          </p>
+          <button type="button" class="control" data-testid="control-scoped">
+            Larger scoped control
+          </button>
+        </div>
+      </section>
+      <section aria-labelledby="contrast">
+        <h2 id="contrast">Default contrast roles</h2>
+        <p>
+          Text, error text, meaningful control boundaries and keyboard focus
+          against each default surface.
+        </p>
+        <div class="contrast-sample" data-testid="contrast-surface">
+          <p>Text on the default surface.</p>
+          <p class="error">Error on the default surface.</p>
+          <button type="button" class="control">Surface control</button>
+        </div>
+        <div
+          class="contrast-sample contrast-subtle"
+          data-testid="contrast-surface-subtle"
+        >
+          <p>Text on the subtle surface.</p>
+          <p class="error">Error on the subtle surface.</p>
+          <button type="button" class="control">Subtle surface control</button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

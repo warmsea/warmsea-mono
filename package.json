@@ -1,5 +1,31 @@
 {
   "name": "warmsea-mono",
   "private": true,
-  "workspaces": ["packages/*"]
+  "type": "module",
+  "packageManager": "bun@1.4.3",
+  "engines": {
+    "node": ">=24.20.0 <25",
+    "bun": "1.4.3"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test:workflow": "node --test tests/*.test.mjs",
+    "build": "node scripts/workspaces.mjs build",
+    "format": "prettier --write . && bun run --sequential --workspaces format",
+    "format:check": "prettier --check . && bun run --sequential --workspaces format:check",
+    "lint": "bun run --sequential --workspaces lint",
+    "typecheck": "node scripts/workspaces.mjs typecheck",
+    "test": "bun run test:workflow && node scripts/workspaces.mjs test",
+    "ci:setup": "bun run --sequential --workspaces ci:setup",
+    "check:affected": "node scripts/workspaces.mjs affected",
+    "check:root": "prettier --check . && bun run test:workflow",
+    "check:code": "node scripts/workspaces.mjs code",
+    "check": "node scripts/workspaces.mjs full",
+    "check:ci": "node scripts/workspaces.mjs ci"
+  },
+  "devDependencies": {
+    "prettier": "3.9.10"
+  }
 }

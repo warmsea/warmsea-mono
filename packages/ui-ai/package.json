@@ -1,0 +1,80 @@
+{
+  "name": "@warmsea/ui-ai",
+  "version": "0.1.0",
+  "description": "Controlled, native-first AI prompt components for Warmsea.",
+  "type": "module",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "dependencies": {
+    "@warmsea/ui-vue": "workspace:^",
+    "@warmsea/ui-tokens": "workspace:^"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
+  "scripts": {
+    "build:dependencies": "bun run --filter @warmsea/ui-vue build:dependencies && bun run --filter @warmsea/ui-vue build",
+    "build": "node scripts/check-workspace.mjs build",
+    "build:self": "node scripts/check-workspace.mjs build-self",
+    "build:implementation": "vite build && vue-tsc -p tsconfig.build.json",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "node scripts/check-workspace.mjs typecheck",
+    "typecheck:prepared": "node scripts/check-workspace.mjs typecheck",
+    "typecheck:implementation": "vue-tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "test:implementation": "vitest run",
+    "test:focused": "node scripts/check-workspace.mjs focused",
+    "test:prepared": "node scripts/check-workspace.mjs test",
+    "workflow:inputs": "node scripts/check-workspace.mjs inputs",
+    "workflow:select": "node scripts/check-workspace.mjs select",
+    "check:local": "node scripts/check-workspace.mjs local",
+    "check:integration": "node scripts/check-workspace.mjs integration",
+    "test:browser": "playwright test",
+    "test:package": "bun tests/package/check.mjs",
+    "storybook": "storybook dev --host 127.0.0.1 --no-open --ci",
+    "build:storybook": "node scripts/check-workspace.mjs artifact-build",
+    "build:storybook:implementation": "storybook build --output-dir .artifacts/storybook-static",
+    "ci:setup": "playwright install --with-deps chromium firefox webkit",
+    "check:code": "node scripts/check-workspace.mjs code",
+    "check": "node scripts/check-workspace.mjs full",
+    "check:ci": "node scripts/check-workspace.mjs ci"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.64.0",
+    "@storybook/addon-docs": "10.6.2",
+    "@storybook/vue3-vite": "10.6.2",
+    "@types/node": "24.10.1",
+    "@vitejs/plugin-vue": "6.0.10",
+    "@vue/test-utils": "2.5.1",
+    "eslint": "10.12.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-vue": "10.11.1",
+    "jsdom": "30.1.2",
+    "prettier": "3.9.10",
+    "storybook": "10.6.2",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.2",
+    "vite": "8.3.4",
+    "vitest": "5.0.4",
+    "vue": "3.5.44",
+    "vue-tsc": "3.3.13"
+  }
+}

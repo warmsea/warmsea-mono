@@ -1,0 +1,106 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Getting started/Overview" />
+
+<main>
+
+# Warmsea UI
+
+A small Vue design system with a warm ocean identity. Button renders a real HTML
+`<button>`: the browser handles Enter/Space activation, the disabled state, and
+form submission or reset. Heading and Text provide native heading, paragraph,
+and inline typography. AppBar provides a vertical app-navigation rail with native
+icon-only links, accessible labels with Tooltip hints, and application-owned
+current state. Tooltip also provides standalone supplementary plain-text help.
+Select provides native single selection for fixed
+lists, with native form naming and required validation.
+
+Start with the foundations, then use component stories to explore the public API.
+
+## Two packages, two responsibilities
+
+<table>
+  <thead>
+    <tr>
+      <th scope="col">Package</th>
+      <th scope="col">Responsibility</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>@warmsea/ui-tokens</code>
+      </td>
+      <td>Framework-independent CSS tokens and the default light theme</td>
+    </tr>
+    <tr>
+      <td>
+        <code>@warmsea/ui-vue</code>
+      </td>
+      <td>Typed Vue components consuming those tokens</td>
+    </tr>
+  </tbody>
+</table>
+
+There is no separate Storybook workspace. This documentation belongs to
+`@warmsea/ui-vue`; each package also explains itself through README and AGENTS
+guidance, examples, and verification commands.
+
+## Find the right surface
+
+- **Getting started:** setup, package boundaries, and public imports.
+- **Foundations:** the actual token values and how consumer overrides work.
+- **Components / Button / Docs:** purpose, API, usage, and accessibility.
+- **Components / Button / Demos:** a separate page combining all fixed
+  comparisons: variants, states, and types, without addon panels.
+- **Components / Button / Playground:** one interactive example with Controls.
+- **Components / Heading and Text:** each has Docs, Demos, and Playground
+  for its native semantics and typography options.
+- **Components / AppBar:** Docs, fixed Demos, and an interactive
+  Playground demonstrating native fragment navigation.
+- **Components / Tooltip:** Docs, fixed Demos, and Playground for immediate
+  hover/focus hints, logical placement, and supplementary descriptions.
+- **Components / Select:** Docs, fixed Demos, and Playground for a native picker,
+  disabled options, native forms and parent-owned reset.
+
+## MVP boundaries
+
+Input provides controlled native text editing, optional labels/help/errors,
+and an opt-in clear button. Password inputs stay masked; there are no slots.
+See Components / Input.
+
+Select uses one native select with flat string options and a string/null model.
+Null displays a disabled prompt; the parent clears and resets its model.
+Name-based submission and required validation are native. Unknown values show
+the prompt without changing the model. The browser manages the picker and
+keyboard behavior; no custom popup, search, multiple selection or optgroups.
+
+Button has primary, default, outlined and subtle appearances, a disabled state,
+and button/submit/reset types. Heading requires a level from 1 to 6; size follows
+rank. Text supports paragraph/inline roots and regular/semibold weights.
+Body text is 1rem and control text is 0.875rem, each with its own line-height
+role. Button and Text have no size prop. Both typography components have zero margins.
+
+AppBar supports a compact icon-only rail with accessible labels, Tooltip
+hints, a required decorative icon slot, and bottom destinations. It does not
+render badges, integrate with a router, or handle commands.
+The consumer owns layout and derives current state from its location.
+
+Tooltip opens immediately on hover/keyboard focus, dismisses with Escape, and
+uses the browser's native popover layer without a positioning dependency.
+It provides browser-managed title hints when that API is unsupported.
+Its text is supplementary, never the only accessible name or essential help.
+Interactive content, click/tap toggles, arrows, and animations are not supported.
+
+Button has no loading state or link mode. There is no bundled icon system,
+dark mode, or themes package. AppBar collapse, overflow menus, and
+responsive bottom navigation are deferred.
+Controls are not a promise of features outside the documented API.
+
+## Maintenance contract
+
+Component changes travel with typed stories, usage guidance, and behavior checks.
+Stories are executable examples, not separate implementations of the component.
+The underlying token contract remains owned by `@warmsea/ui-tokens`.
+
+</main>

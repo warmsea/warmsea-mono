@@ -1,0 +1,106 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Getting started/Installation" />
+
+<main>
+
+# Installation
+
+The packages are not yet published. There is no registry installation step for
+this MVP; the public imports below describe the built package contract.
+
+## Work in this repository
+
+Select Node 24.20.0 with npm first. From the repository root, install with pinned
+Bun 1.4.3; no global Bun installation or persistent PATH change is needed:
+
+```sh
+npm exec --yes --package=bun@1.4.3 -- bun install --frozen-lockfile
+```
+
+If the active Node differs, replace the prefix with
+`npm exec --yes --package=node@24.20.0 --package=bun@1.4.3 --`.
+Then run from `packages\ui-vue`:
+
+```sh
+npm exec --yes --package=bun@1.4.3 -- bun run build
+npm exec --yes --package=bun@1.4.3 -- bun run storybook
+```
+
+Manual Storybook (`storybook` or `dev`) runs on port 6006. Automated browser and
+Storybook tests use their own static server on an OS-assigned loopback port.
+
+## Public imports
+
+Vue 3.5 is a peer dependency. Load token CSS, component CSS, then consumer
+overrides. Importing component JavaScript never installs a theme.
+
+```vue
+<script setup lang="ts">
+import '@warmsea/ui-tokens/style.css';
+import '@warmsea/ui-vue/style.css';
+import { Button, Heading, Text } from '@warmsea/ui-vue';
+</script>
+
+<template>
+  <Heading :level="1">Explore the coast</Heading>
+  <Text>A quiet place to begin.</Text>
+  <Button>Set sail</Button>
+  <Button variant="outlined">Stay ashore</Button>
+</template>
+```
+
+## Verify a change
+
+Run from `packages\ui-vue`. Prepare browser assets once before browser checks:
+
+```sh
+npm exec --yes --package=bun@1.4.3 -- bun run ci:setup
+```
+
+For the focused owner loop:
+
+```sh
+npm exec --yes --package=bun@1.4.3 -- bun run check:local AppBar.test.ts commands.test.ts
+```
+
+For complete local acceptance:
+
+```sh
+npm exec --yes --package=bun@1.4.3 -- bun run check
+```
+
+This builds tokens, the library and static Storybook, then verifies formatting,
+lint, types, unit tests, packed artifacts, browser behavior, reviewed visuals and
+Storybook. Full visual acceptance requires Windows; on Linux use
+`bun run check:ci` for functional checks without Windows-only snapshots.
+
+For focused artifact checks, run `bun run build`, then `bun run test:package`
+with the same pinned prefix. It inspects actual tarballs, typechecks the packed
+component and props, and imports the built JavaScript in Node without browser
+globals. It uses installed tools with no separate application or dependency
+installation; independent-project installation and bundler integration are not
+covered.
+
+Automated browser and Storybook tests require a fresh test-site build. After
+changing guides or stories, run `bun run build` to prepare the library and its
+dependencies, then `bun run build:storybook:test`. The ordinary
+`bun run build:storybook` builds only the public site, without private test
+fixtures. For example, from `packages\ui-vue`:
+
+```sh
+npm exec --yes --package=bun@1.4.3 -- bun run build
+npm exec --yes --package=bun@1.4.3 -- bun run build:storybook:test
+npm exec --yes --package=bun@1.4.3 -- bun run test:browser app-bar.spec.ts --project=chromium
+npm exec --yes --package=bun@1.4.3 -- bun run test:storybook AppBar.storybook.ts
+```
+
+These are focused checks, not full acceptance. Root `check:affected` requires a
+trusted baseline; public/dependency changes or an absent/invalid baseline require
+root `check:ci`. Do not run a full unit suite immediately before the same complete
+gate.
+Manual previews may remain running.
+Reports and results stay under this package's
+`.artifacts/{browser,storybook}/<run-id>` directories.
+
+</main>

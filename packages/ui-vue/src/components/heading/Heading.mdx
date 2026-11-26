@@ -1,0 +1,67 @@
+import { ArgTypes, Meta } from '@storybook/addon-docs/blocks';
+import * as HeadingStories from './Heading.stories';
+
+<Meta of={HeadingStories} name="Docs" />
+
+<main>
+
+# Heading
+
+Heading renders one native `h1` through `h6`. Its required numeric `level` selects
+both the document rank and matching typography. Choose rank for the document
+hierarchy, never just to get a particular font size.
+
+## Use
+
+```vue
+<script setup lang="ts">
+import '@warmsea/ui-tokens/style.css';
+import '@warmsea/ui-vue/style.css';
+import { Heading, type HeadingProps } from '@warmsea/ui-vue';
+
+const level: HeadingProps['level'] = 2;
+</script>
+
+<template>
+  <Heading :level="level" id="coast">Explore the coast</Heading>
+</template>
+```
+
+## Props
+
+<div
+  className="wui-docs-table"
+  role="region"
+  aria-label="Heading props"
+  tabIndex={0}
+>
+  <ArgTypes of={HeadingStories} include={['level']} />
+</div>
+
+There is no default level or separate size prop. Missing or invalid levels are
+unsupported. The default slot supplies phrasing content. Native attributes,
+classes, styles, and listeners fall through to the native heading root, including
+when its level changes. `label` and `textColor` are Playground controls, not props.
+
+## Appearance and spacing
+
+All levels use the neutral text color, system font family, semibold weight, and
+heading line-height from the token package. The level chooses its heading-size
+token. Margins are zero; the consumer supplies layout spacing.
+
+Demos compares all six levels in order. Playground demonstrates one
+Heading with live Controls. For scoped CSS token overrides, read
+Foundations / Typography and Customization.
+
+## Accessibility and behavior
+
+Use a meaningful document outline and readable heading content. Heading adds no
+ARIA role, focus handling, or keyboard behavior: its native element supplies the
+semantics. Keep slotted content valid for a heading. Test screen-reader heading
+navigation, forced colors, and 200% zoom manually; automated accessibility checks
+cannot prove those experiences.
+
+Arbitrary roots, visual-level overrides, color props, and truncation are outside
+this version.
+
+</main>

@@ -1,0 +1,69 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { tokensWithPrefix } from './token-reference';
+
+<Meta title="Foundations/Spacing" />
+
+<main>
+
+# Spacing
+
+Use the small spacing scale for control padding and gaps. The values below come
+from the token package, rather than a second scale defined for documentation.
+
+<div className="wui-docs-token-grid">
+  {tokensWithPrefix('--wui-space-').map(({ name, value }) => (
+    <div key={name} className="wui-docs-token" data-token={name}>
+      <div
+        className="wui-docs-spacing"
+        style={{ width: `var(${name})` }}
+        aria-hidden="true"
+      />
+      <code>{name}</code>
+      <code>{value}</code>
+    </div>
+  ))}
+</div>
+
+## Control geometry
+
+<table>
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>Value from source</th>
+    </tr>
+  </thead>
+  <tbody>
+    {tokensWithPrefix('--wui-control-padding-')
+      .concat(tokensWithPrefix('--wui-radius-'))
+      .concat(tokensWithPrefix('--wui-border-'))
+      .concat(tokensWithPrefix('--wui-focus-'))
+      .map(({ name, value }) => (
+        <tr key={name}>
+          <td>
+            <code>{name}</code>
+          </td>
+          <td>
+            <code>{value}</code>
+          </td>
+        </tr>
+      ))}
+  </tbody>
+</table>
+
+Controls combine shared typography and padding. Focus offset is
+outside the control boundary; leave space so outlines are not clipped.
+
+Button and Select use 0.875rem control text and
+`round(140%, 2px)` control line-height. Body text remains 1rem.
+At a 16px root, that means a 20px line with 5px padding above and below,
+plus two 1px borders: 32px outer height. The 5px padding remains fixed when text enlarges.
+Enlarged text, icons and wrapping grow the control rather than clipping.
+Native form-control font metrics can also increase the nominal 32px height.
+Padding remains exactly 5px.
+
+Keep body spacing and AppBar's 44px navigation targets independent of form-control
+density. Override `--wui-control-padding-block` locally when larger targets are
+appropriate rather than changing the global spacing scale.
+
+</main>

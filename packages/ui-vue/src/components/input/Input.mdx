@@ -1,0 +1,73 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as InputStories from './Input.stories';
+
+<Meta of={InputStories} name="Docs" />
+
+<main>
+
+# Input
+
+A controlled native single-line input. Import `Input`, `InputProps`, and
+`InputType` from `@warmsea/ui-vue`, and load both public stylesheets.
+
+<Canvas of={InputStories.FormExample} withToolbar={false} />
+
+## API
+
+<div
+  className="wui-docs-table"
+  role="region"
+  aria-label="Input props"
+  tabIndex={0}
+>
+  <ArgTypes of={InputStories} />
+</div>
+
+Use required string `v-model`; empty means `''`, not null. Types are `text`
+(default), `password`, `email`, `search`, `tel`, and `url`. Native input events
+update the model after composition ends; rejected updates restore the parent
+value. The only component event is `update:modelValue(string)`.
+Supporting-text and parent-model updates leave the in-progress composition
+untouched; controlled value synchronization resumes when composition ends.
+
+Optional `label` supplies a linked native label. Otherwise supply an external
+label, `aria-label`, or `aria-labelledby`; placeholder is not a label.
+`helpText` supplies a description. Nonempty `errorText` replaces help text and
+implies invalid; `invalid` also marks a field without text. External
+`aria-describedby` IDs are retained. The parent owns validation messages; no
+automatic blur validation or live alert is added.
+
+## Clear action
+
+`clearable` defaults false. Clear appears for nonempty editable values, emits
+`''`, and focuses the input. It does not submit forms or synthesize native
+input/change events. Customize `clearLabel` (`Clear input`) for localization.
+
+Password inputs stay masked. There is no password visibility toggle or slot API.
+
+## Attributes and native forms
+
+Class and style target the complete field wrapper, unlike wrapper-free Select.
+Other native attributes/listeners target the input, including `form`,
+autocomplete, inputmode, pattern, maxlength, and ARIA naming. The component owns
+type, value, ID linkage, role, and invalid state. Name, required, disabled, and
+readonly preserve native submission and validity semantics, including disabled
+fieldsets. Invalid styling does not call `setCustomValidity`.
+
+Reset is parent-owned: use `@reset.prevent="value = ''"` on the form.
+Native reset alone does not synchronize Vue state. There are no modifiers,
+masking, debounce, number/date modes, textarea, or suggestion popup.
+
+## Styling and review
+
+Input uses existing control typography, 5px block padding, neutral surfaces,
+and `--wui-color-error` for invalid boundaries/error text. Label and supporting
+text are body-sized. The default width is 16rem constrained to its container.
+Fonts may grow the nominal 32px control. No fonts are loaded.
+Scope token overrides through class/style on the wrapper.
+
+Review keyboard editing, screen-reader names/descriptions, native browser
+validation, password managers, mobile keyboards, actual zoom, and Windows high
+contrast before release; automated checks do not prove full accessibility.
+
+</main>

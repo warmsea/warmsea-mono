@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node", "vite/client"]
+  },
+  "include": [
+    "*.ts",
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "examples/**/*.ts",
+    "examples/**/*.vue",
+    "tests/**/*.ts",
+    ".storybook/**/*.ts"
+  ],
+  "exclude": ["node_modules", "dist", ".artifacts"]
+}

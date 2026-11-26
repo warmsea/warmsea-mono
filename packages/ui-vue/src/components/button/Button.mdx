@@ -1,0 +1,110 @@
+import { ArgTypes, Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './Button.stories';
+
+<Meta of={ButtonStories} name="Docs" />
+
+<main>
+
+# Button
+
+Use Button to trigger an action or perform a native form operation. It renders
+one real HTML button; it is not a navigation link.
+
+## Explore demos
+
+- **Demos:** compare variants, states, and types together on a
+  separate page, without addon panels.
+- **Playground:** experiment with one interactive Button through Storybook Controls.
+
+## Use in an application
+
+```vue
+<script setup lang="ts">
+import '@warmsea/ui-tokens/style.css';
+import '@warmsea/ui-vue/style.css';
+import { Button } from '@warmsea/ui-vue';
+</script>
+
+<template>
+  <Button>Set sail</Button>
+  <Button variant="default">Explore the coast</Button>
+  <Button variant="outlined">Stay ashore</Button>
+  <Button variant="subtle">Cancel</Button>
+</template>
+```
+
+## Props
+
+<div
+  className="wui-docs-table"
+  role="region"
+  aria-label="Button props"
+  tabIndex={0}
+>
+  <ArgTypes of={ButtonStories} include={['variant', 'disabled', 'type']} />
+</div>
+
+The default slot supplies content. Native attributes, classes, styles, and
+listeners reach the button. `label` and `palette` in
+Playground are story controls, not additional component props.
+`ButtonProps` is exported from the package entry.
+
+## Appearance and color are different
+
+Button has one control text size and no size prop. It shares
+`--wui-font-size-control` (0.875rem) and `--wui-line-height-control`
+(`round(140%, 2px)`) with Select: 14px text on a 20px line
+at a 16px root. Body text remains 1rem.
+`--wui-control-padding-block` adds 5px above and below content, plus 1px borders,
+for a 32px outer height aligned with Select. Larger text, icons and
+wrapped labels grow the control instead of clipping. Consumers can override
+padding and line-height locally for larger targets.
+
+The variants are `primary` (the default prop value), `default`, `outlined`,
+and `subtle`. Primary uses the brand color with on-primary text. Default uses a
+primary tint over surface with ordinary text color; outlined stays neutral with
+a visible border. Subtle has a transparent background and no visible border,
+with light text-color fills on hover/active. It retains a visible keyboard-focus
+outline and system-color boundaries in forced colors.
+Demos compares all four variants, then uses default to demonstrate the
+other props without repeating every variant.
+The former `filled` and `tonal` names are removed; migrate them to `primary`
+and `default`, respectively.
+This includes `wui-button--*` class selectors, not just prop values.
+
+Primary consumes primary-hover/active; default consumes the three primary-container
+states and uses `--wui-color-text` rather than the primary foreground role.
+Outlined uses surface-subtle/active, and subtle consumes subtle-hover/active.
+All recipes belong to ui-tokens. Supply complete local state palettes; changing
+only primary/text/surface does not derive new hover/active values.
+All variants share the same neutral, borderless disabled appearance; forced
+colors retain system-color boundaries.
+For theme concepts and load order, read Foundations / Customization.
+Use Playground's local color controls to explore token overrides.
+
+## Form behavior
+
+The `type` prop changes form behavior, not appearance. The default
+`type="button"` does not submit. `type="submit"` submits the form;
+`type="reset"` restores the fields' initial values.
+
+Edit Destination, then try the buttons. This example prevents navigation on
+submission and counts submit/reset events. Reset restores "Warmsea"; it does
+not clear the event counters.
+
+<Canvas of={ButtonStories.FormBehavior} withToolbar={false} />
+
+## Accessibility and behavior
+
+- Give the button an understandable accessible name, preferably visible text.
+- Native keyboard behavior supports Enter and Space; focus remains visible.
+- Disabled buttons cannot activate and are skipped in the tab order.
+- The default `type="button"` avoids accidental form submission. Set `submit` or
+  `reset` deliberately inside a form.
+- Verify contrast after overriding primary or foreground colors.
+- Browser tests and automated accessibility checks do not replace manual keyboard,
+  screen-reader, high-contrast, and zoom review.
+
+Loading, link mode, icon helpers, and additional appearances are outside the MVP.
+
+</main>

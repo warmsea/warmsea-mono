@@ -1,0 +1,51 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { tokensWithPrefix } from './token-reference';
+
+<Meta title="Foundations/Colors" />
+
+<main>
+
+# Colors
+
+Warm ocean teal is the default primary, with seafoam surfaces, neutral charcoal
+text and neutral gray disabled colors. These swatches read `@warmsea/ui-tokens` source directly; this page does
+not maintain a second palette.
+
+<div className="wui-docs-token-grid">
+  {tokensWithPrefix('--wui-color-').map(({ name, value }) => (
+    <div key={name} className="wui-docs-token" data-token={name}>
+      <div
+        className="wui-docs-swatch"
+        style={{ backgroundColor: `var(${name})` }}
+        aria-hidden="true"
+      />
+      <code>{name}</code>
+      <code>{value}</code>
+    </div>
+  ))}
+</div>
+
+## Semantic roles
+
+The primary color token supplies Button's solid `primary` appearance and
+brand-tinted `default` appearance. `outlined` and transparent `subtle` use
+ordinary text color. Surface, text, border, focus, and disabled tokens have
+separate roles.
+
+Input uses `--wui-color-error` for invalid boundaries and error text. Validation
+messages and ARIA state provide non-color cues. Consumer error-color overrides
+must retain contrast against the local surface.
+
+Interaction state colors are public tokens, with default recipes owned by
+ui-tokens. Components consume the values directly. Local themes replace the
+complete relevant state group; changing only a base color does not recompute
+inherited hover/active values. See Foundations / Customization.
+
+## Contrast responsibilities
+
+The default palette is covered by automated accessibility checks. Arbitrary
+consumer colors are not guaranteed to remain readable. Check foreground against
+base, hover, and active backgrounds, and check the focus outline separately.
+Disabled controls must remain recognizable without relying only on color.
+
+</main>

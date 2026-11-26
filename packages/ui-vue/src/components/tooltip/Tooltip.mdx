@@ -1,0 +1,151 @@
+import { ArgTypes, Meta } from '@storybook/addon-docs/blocks';
+import * as TooltipStories from './Tooltip.stories';
+
+<Meta of={TooltipStories} name="Docs" />
+
+<main>
+
+# Tooltip
+
+Tooltip provides brief, supplementary plain-text hints on hover and keyboard
+focus. It opens immediately, without animation, and never moves focus. It is
+not a menu, dialog, validation message, or replacement for persistent help.
+
+## Use
+
+```vue
+<script setup lang="ts">
+import '@warmsea/ui-tokens/style.css';
+import '@warmsea/ui-vue/style.css';
+import { Button, Tooltip } from '@warmsea/ui-vue';
+</script>
+
+<template>
+  <Tooltip text="Download the current results as CSV" placement="bottom">
+    <template #default="{ describedBy }">
+      <Button :aria-describedby="describedBy">Export</Button>
+    </template>
+  </Tooltip>
+</template>
+```
+
+## Props and trigger slot
+
+<div
+  className="wui-docs-table"
+  role="region"
+  aria-label="Tooltip props"
+  tabIndex={0}
+>
+  <ArgTypes of={TooltipStories} include={['text', 'placement', 'describe']} />
+</div>
+
+`TooltipProps` and `TooltipPlacement` are exported from the package entry.
+`text` is required and rendered as text, never HTML. Empty or whitespace-only
+content disables the hint and description association.
+
+`placement` defaults to `top`; other values are `bottom`, `inline-start`, and
+`inline-end`. It is a preference, not a fixed side: the hint flips and shifts
+to fit the current viewport. Logical sides follow the trigger's LTR/RTL direction.
+This version supports horizontal writing modes and remains inside its own
+document, including a Storybook iframe.
+
+The required default slot renders one enabled native focusable control, or a
+single-native-root component such as Button. It receives `describedBy`, a stable
+ID when `describe` is true and text is nonempty, otherwise undefined. Bind it
+to the actual control's `aria-describedby`, not the Tooltip wrapper. Combine
+it with existing description IDs in an array, remove absent IDs with
+`.filter(Boolean)`, and `.join(' ')` to bind the space-separated result.
+Vue generates IDs per application; configure distinct application ID prefixes
+when mounting multiple independent Vue apps into one document.
+
+`describe` defaults to true. The hidden description target remains in the DOM
+while closed, so descriptions do not depend on hovering first. A tooltip does
+not supply the control's accessible name: icon-only controls still need their
+own `aria-label` or equivalent.
+
+For a visual hint that repeats an existing accessible name, use `describe=false`:
+
+```vue
+<Tooltip text="Settings" :describe="false" placement="inline-end">
+  <Button>Settings</Button>
+</Tooltip>
+```
+
+AppBar uses this mode with its existing link labels, avoiding duplicate
+name/description announcements.
+
+## Native attributes and layout
+
+Tooltip renders a non-focusable inline-block `span` around the trigger.
+Native attributes, classes, styles, and listeners fall through to that wrapper,
+not the child control or floating surface. Bind button/link attributes and
+listeners to the control itself. Native clicks, modifier clicks, forms, focus,
+and keyboard activation are not canceled or replaced.
+
+The wrapper must not contain multiple controls. Do not add a second native
+`title` to the trigger. Disabled-control hints, arbitrary trigger fragments,
+controlled-open state, and imperative methods are not supported.
+
+## Rendering and positioning
+
+The content is a native `popover="manual"` with `role="tooltip"`. This uses the
+browser's top layer to escape ancestor clipping and stacking while keeping the
+node in its original DOM tree. Scoped colors, typography, and direction remain
+inherited. There is no Teleport, backdrop, modal behavior, focus trap, UI library,
+or positioning dependency.
+
+Positioning follows the actual trigger through scrolling, resize, transforms,
+and layout shifts while open. Content wraps at approximately 20rem or the
+available viewport width, with no ellipsis. The current trigger must be visible;
+a fully scrolled-out or removed control closes its hint. Keyboard focus can
+wait for the browser's native scroll into view without an opening timer.
+Closed, inactive hints do not poll or observe layout.
+
+If no non-overlapping placement fits, the custom surface stays closed; bound
+accessible descriptions remain available. Use persistent help for essential or
+oversized content. Touch/tap toggles, rich content, scrolling panels, arrows,
+and custom timing/animation controls are outside this version.
+
+Feature detection happens after mount. Browsers without native popover methods
+receive a wrapper `title` hint and an explicitly hidden description target.
+That fallback is browser-managed hover help, not the full custom keyboard
+tooltip. The library has no import-time browser side effects.
+
+## Interaction and accessibility
+
+Hover with a mouse/hover-capable pen or keyboard-focus the trigger to open.
+Pointer-generated focus does not independently open the hint. Focus is detected
+using the browser's focus-visible state; there is no added tab stop or forced
+focus movement.
+
+The hint stays visible while the control is keyboard-focused or the pointer is
+over the control or the hint. A transparent hit bridge covers the placement
+gap, so slow pointer movement onto the text does not dismiss it. It does not
+disappear on a timer.
+
+Escape dismisses without consuming the native event or moving focus.
+It stays dismissed for that hover/focus interaction, including when text or
+layout changes. Leave/blur and enter/focus again to reopen.
+Replacing the single trigger (for example by changing its Vue `key`) ends the
+old hover/focus interaction, including any Escape dismissal or pending opening.
+Keyboard focus or hover on the replacement starts a new interaction without
+requiring the removed control to dispatch blur. Updating the same control does
+not reset Escape dismissal.
+The surface has no focusable content, live region, or synthetic activation event.
+
+Existing text/surface, typography, spacing, border, and radius tokens style the
+inverse surface. Validate consumer color overrides; forced colors retain system
+foreground, background, and borders. Tooltip has no motion, and AppBar retains
+its own reduced-motion-aware selection animation.
+
+Docs, fixed Demos, and Playground share the actual component. `triggerLabel`
+is a Playground-only control, not a component prop. No story opens a hint or
+moves focus on load.
+
+Manually review keyboard and Escape behavior, slow hover crossing, screen-reader
+names/descriptions, Windows high contrast, actual 200% browser zoom, and real
+touch devices. Automated accessibility, geometry, screenshots, and synthetic
+touch-pointer checks do not replace those reviews.
+
+</main>
