@@ -1,0 +1,102 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Customization" />
+
+<main>
+
+# Customization
+
+Consumers own their theme through ordinary CSS custom properties. The MVP ships
+a default light theme in `@warmsea/ui-tokens`; no runtime theme manager or extra
+themes package is needed.
+
+## Load order
+
+```ts
+import '@warmsea/ui-tokens/style.css';
+import '@warmsea/ui-vue/style.css';
+import './brand.css';
+```
+
+## Supply a local state palette
+
+```css
+.rose {
+  --wui-color-primary: #9f1239;
+  --wui-color-on-primary: #ffffff;
+  --wui-color-primary-hover: rgb(139.92 15.84 50.16);
+  --wui-color-primary-active: rgb(120.84 13.68 43.32);
+  --wui-color-primary-container: rgb(243.48 226.56 231.24);
+  --wui-color-primary-container-hover: rgb(235.8 207.6 215.4);
+  --wui-color-primary-container-active: rgb(228.12 188.64 199.56);
+}
+```
+
+This explicit palette preserves the former rose primary and tinted-control
+appearance over the default white surface. The default recipes and semantic
+groups belong to the ui-tokens README; components do not repeat them.
+Changing only a local base color no longer derives related states. Supply all
+states used by that theme, including container colors if default Buttons occur.
+Changing a theme means replacing the complete relevant group together.
+The primary color token and Button's `primary` variant remain separate contracts.
+
+## Scope a theme
+
+```css
+.sunlight {
+  --wui-color-primary: #fcd34d;
+  --wui-color-on-primary: #292524;
+  --wui-color-primary-hover: rgb(221.76 185.68 67.76);
+  --wui-color-primary-active: rgb(191.52 160.36 58.52);
+  --wui-color-primary-container: rgb(254.64 249.72 233.64);
+  --wui-color-primary-container-hover: rgb(254.4 246.2 219.4);
+  --wui-color-primary-container-active: rgb(254.16 242.68 205.16);
+}
+
+.rose .emphasis {
+  --wui-color-primary-hover: #701a35;
+}
+
+.editorial {
+  --wui-radius-control: 999px;
+  --wui-font-family: Georgia, serif;
+  --wui-font-size: 1.125rem;
+  --wui-font-size-control: 1rem;
+  --wui-font-size-heading-2: 2.25rem;
+  --wui-font-weight-regular: 400;
+  --wui-font-weight-semibold: 600;
+}
+```
+
+Only descendants inherit overrides; an explicit child hover value leaves active
+and siblings unchanged. The defaults' root expressions resolve before inheritance,
+so a nested primary-only override does not recalculate them.
+
+Primary Button text uses `--wui-color-on-primary`. Default, outlined and subtle text use
+`--wui-color-text`; override that role when those foregrounds need a different
+contrast pair. A local text change also requires the relevant subtle-hover/active,
+surface-hover/active and action-highlight values. A surface change affects
+primary-container and surface state groups; a surface-subtle change requires
+surface-subtle-active. Button Playground accepts a token-value object in `palette`,
+not a component prop. Empty inherits the default ocean palette.
+
+Heading and Text also use `--wui-color-text`. Their Playgrounds expose a local
+text-color control, not a color prop. Heading uses level-specific size tokens,
+semibold weight, and heading line-height. Text uses the body size,
+regular/semibold weight, and body line-height. Controls use the separate
+`--wui-font-size-control` and `--wui-line-height-control` (default
+`round(140%, 2px)`) roles;
+changing body size does not change control text. The legacy `--wui-font-weight`
+still controls Button; changing the new weight roles does not change that token.
+
+## Keep the responsibilities separate
+
+- Token definitions and their contract belong to the token package.
+- Foundation pages explain cross-component customization.
+- Button's Playground palette control demonstrates explicit local state groups.
+- Consumers must validate contrast after changing primary or foreground colors.
+
+There is no automatic foreground selection, dark mode, or persistent theme
+switcher in the current MVP.
+
+</main>

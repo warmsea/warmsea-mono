@@ -1,0 +1,76 @@
+import { Meta, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './Menu.stories';
+
+<Meta of={Stories} name="Docs" />
+<main>
+
+# Menu
+
+A labelled Button opens a native manual-popover action menu. On hosts without
+popover support, the same menu uses a fixed-position fallback. `label` and `items`
+are required. Each item has a stable `id`, plain `label` and optional `disabled`.
+`select` emits the chosen item; the consumer owns the action and its confirmation.
+The default slot supplies visible trigger content; the label remains its accessible name.
+
+```vue
+<Menu
+  label="Conversation actions"
+  :items="[{ id: 'rename', label: 'Rename' }]"
+  @select="choose($event.id)"
+>Actions</Menu>
+```
+
+## API
+
+<div
+  className="wui-docs-table"
+  role="region"
+  aria-label="Menu props"
+  tabIndex={0}
+>
+  <ArgTypes of={Stories} />
+</div>
+
+## Keyboard and focus
+
+Click, Enter, Space or ArrowDown opens at the first enabled item; ArrowUp opens at the last.
+Arrow keys wrap through enabled items, Home/End select the ends, and typing an
+initial focuses a matching item. Escape closes and returns focus. Tab closes and
+continues normal navigation from the trigger. Outside pointer activation closes
+without stealing focus. Moving focus outside also closes. Selection closes and
+restores trigger focus before emitting, so an action may then open a Dialog.
+Disabled items never execute and are skipped by keyboard navigation.
+When the focused item is removed or disabled, focus moves to the first enabled
+item. Empty/all-disabled menus focus the menu itself, preserving Escape/Tab.
+Disabling the trigger, including through an ancestor fieldset while the menu is
+open, closes without attempting to focus that disabled control. Native
+first-legend exemptions remain enabled and retain normal menu interaction.
+
+Items require unique, stable IDs and meaningful plain labels. The trigger uses
+the shared subtle Button with a safe `type="button"`; its default slot should be
+text or decorative content, never another interactive control. Native attributes
+and listeners fall through to the outer span, not the trigger. `disabled`
+disables the trigger. A disabled fieldset also prevents opening.
+
+## Placement and verification
+
+The top-layer menu escapes clipping and preserves inherited tokens/direction.
+Enabled item hover and keyboard focus consume `--wui-color-action-highlight`;
+the subtle Button trigger uses the separate subtle-hover/active roles. A local
+text palette supplies all three relevant state values explicitly.
+It aligns to the trigger's inline end, flips above when needed and clamps to the
+visual viewport, with internal scrolling and wrapping for oversized contents.
+Placement follows position-only layout shifts (including ancestor or sibling
+changes) as well as scrolling, viewport resize and trigger/menu size changes.
+Animation-frame tracking, listeners and resize observers exist only while open
+and are released on close/unmount. Hidden or removed triggers dismiss the menu
+without restoring focus. Item keyboard focus uses inherited `--wui-color-focus`
+and `--wui-focus-width`; its offset is the negative focus width, keeping the ring
+inset even with scoped overrides so the scrolling popup does not clip it.
+The unsupported-browser fixed fallback cannot escape ancestor
+clipping or transformed containing blocks; target current evergreen browsers
+for top-layer guarantees. The menu is not a navigation/link API or a focus trap.
+Use Dialog for confirmations, not nested menus. Review keyboard, screen reader,
+touch, enlarged text and forced colors manually as well as automated checks.
+
+</main>

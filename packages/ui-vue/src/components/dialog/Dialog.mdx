@@ -1,0 +1,59 @@
+import { Meta, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './Dialog.stories';
+
+<Meta of={Stories} name="Docs" />
+<main>
+
+# Dialog
+
+A controlled native modal `dialog`, opened with `showModal()`. Both `modelValue`
+(boolean) and `title` (plain text) are required. The title is a level-two Heading
+and labels the dialog. Content uses the default slot; optional actions use `footer`.
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+import { Button, Dialog, Text } from '@warmsea/ui-vue';
+const open = ref(false);
+</script>
+<template>
+  <Button @click="open = true">Review</Button>
+  <Dialog v-model="open" title="Review destination">
+    <Text>Check your destination before continuing.</Text>
+    <template #footer>
+      <Button variant="default" @click="open = false">Close</Button>
+    </template>
+  </Dialog>
+</template>
+```
+
+## Props and behavior
+
+<div
+  className="wui-docs-table"
+  role="region"
+  aria-label="Dialog props"
+  tabIndex={0}
+>
+  <ArgTypes of={Stories} />
+</div>
+
+Escape requests `update:modelValue(false)`; the parent decides whether to close.
+Native form closure also requests false. A rejected native close reopens the
+controlled modal. Reopening before an earlier native close event arrives keeps
+the new modal open without requesting false or restoring the invoker's focus.
+Backdrop clicks do not close it. Native modal focus containment,
+initial focus and `autofocus` behavior are preserved. Closing or unmounting returns
+focus to the connected invoker when available, including pointer activation in
+browsers that do not focus buttons automatically.
+
+Attributes, classes, styles and native listeners reach the dialog; `open`, role
+and its title relationship remain component-owned. Override inline-size with a
+consumer class/style when needed; viewport bounds and scrolling remain in place.
+Consumers own action meaning, validation and irreversible-action confirmation.
+No document changes occur on JavaScript import. Mounting owns and releases its
+pointer listener. Do not nest dialogs unnecessarily or use a modal for ordinary
+navigation. Review keyboard flow, screen-reader announcements, zoom and forced
+colors manually; automated accessibility checks cannot prove all of them.
+
+</main>

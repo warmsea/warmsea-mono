@@ -1,0 +1,92 @@
+:root {
+  --wui-color-primary: #0f766e;
+  --wui-color-on-primary: #ffffff;
+  --wui-color-surface: #ffffff;
+  --wui-color-surface-subtle: #f0fdfa;
+  --wui-color-text: #262626;
+  --wui-color-border: #5f827e;
+  --wui-color-focus: #115e59;
+  --wui-color-error: #b91c1c;
+  --wui-color-disabled-surface: #e5e5e5;
+  --wui-color-disabled-text: #666666;
+  --wui-color-primary-hover: color-mix(
+    in srgb,
+    var(--wui-color-primary),
+    black 12%
+  );
+  --wui-color-primary-active: color-mix(
+    in srgb,
+    var(--wui-color-primary),
+    black 24%
+  );
+  --wui-color-primary-container: color-mix(
+    in srgb,
+    var(--wui-color-primary) 12%,
+    var(--wui-color-surface)
+  );
+  --wui-color-primary-container-hover: color-mix(
+    in srgb,
+    var(--wui-color-primary) 20%,
+    var(--wui-color-surface)
+  );
+  --wui-color-primary-container-active: color-mix(
+    in srgb,
+    var(--wui-color-primary) 28%,
+    var(--wui-color-surface)
+  );
+  --wui-color-surface-subtle-active: color-mix(
+    in srgb,
+    var(--wui-color-surface-subtle),
+    black 8%
+  );
+  --wui-color-subtle-hover: color-mix(
+    in srgb,
+    var(--wui-color-text) 4%,
+    transparent
+  );
+  --wui-color-subtle-active: color-mix(
+    in srgb,
+    var(--wui-color-text) 8%,
+    transparent
+  );
+  --wui-color-surface-hover: color-mix(
+    in srgb,
+    var(--wui-color-text) 4%,
+    var(--wui-color-surface)
+  );
+  --wui-color-surface-active: color-mix(
+    in srgb,
+    var(--wui-color-text) 8%,
+    var(--wui-color-surface)
+  );
+  --wui-color-action-highlight: color-mix(
+    in srgb,
+    var(--wui-color-text) 8%,
+    transparent
+  );
+  --wui-space-1: 0.25rem;
+  --wui-space-2: 0.5rem;
+  --wui-space-3: 0.75rem;
+  --wui-space-4: 1rem;
+  --wui-space-5: 1.25rem;
+  --wui-font-family: 'Roboto', 'Segoe UI', system-ui, sans-serif;
+  --wui-font-size: 1rem;
+  --wui-font-size-control: 0.875rem;
+  --wui-font-size-heading-1: 2.5rem;
+  --wui-font-size-heading-2: 2rem;
+  --wui-font-size-heading-3: 1.75rem;
+  --wui-font-size-heading-4: 1.5rem;
+  --wui-font-size-heading-5: 1.25rem;
+  --wui-font-size-heading-6: 1.125rem;
+  --wui-font-weight: 600;
+  --wui-font-weight-regular: 400;
+  --wui-font-weight-semibold: 600;
+  --wui-line-height: 1.25;
+  --wui-line-height-control: round(140%, 2px);
+  --wui-line-height-heading: 1.25;
+  --wui-radius-control: 0.5rem;
+  --wui-border-width: 1px;
+  --wui-focus-width: 2px;
+  --wui-focus-offset: 3px;
+  --wui-control-padding-block: 5px;
+}

@@ -1,0 +1,74 @@
+import { ArgTypes, Meta } from '@storybook/addon-docs/blocks';
+import * as TextStories from './Text.stories';
+
+<Meta of={TextStories} name="Docs" />
+
+<main>
+
+# Text
+
+Text styles native paragraph or inline text. It defaults to a regular
+paragraph and introduces no extra wrapper.
+
+## Use
+
+```vue
+<script setup lang="ts">
+import '@warmsea/ui-tokens/style.css';
+import '@warmsea/ui-vue/style.css';
+import { Text } from '@warmsea/ui-vue';
+</script>
+
+<template>
+  <Text>A quiet place to begin.</Text>
+  <p>Explore <Text as="span" weight="semibold">Warmsea</Text>.</p>
+</template>
+```
+
+## Props
+
+<div
+  className="wui-docs-table"
+  role="region"
+  aria-label="Text props"
+  tabIndex={0}
+>
+  <ArgTypes of={TextStories} include={['as', 'weight']} />
+</div>
+
+`as` chooses the rendered HTML element: `p` (default) for a paragraph or `span`
+for inline text. `weight` accepts regular (default) or semibold.
+There is no size prop.
+`TextProps` is exported from the package entry.
+
+The default slot supplies phrasing content. Native attributes, classes, styles,
+and listeners fall through to the rendered HTML element, including when `as` changes.
+`label` and `textColor` are Playground controls, not component props.
+
+## Appearance and spacing
+
+Text uses neutral text color, the shared font family, `--wui-font-size` (1rem),
+`--wui-line-height` (1.25), and weight tokens. At a 16px root, text is 16px
+with a 20px line. Margins are zero and paragraph/inline display remains native.
+Consumers own spacing; use `as="span"` inside a paragraph rather than nesting
+paragraphs.
+
+Text wraps naturally. It does not clamp, truncate, or force arbitrary unbroken
+strings to break. Supply consumer CSS for exceptional content.
+
+Demos compares weights and HTML elements. Playground shows one editable
+Text. Foundations / Typography and Customization explain scoped token overrides.
+
+## Accessibility and behavior
+
+Semibold is visual weight, not semantic importance; use valid slotted `strong` or
+`em` when meaning requires it. Use Heading for headings rather than styling Text
+to impersonate one. Text does not add a role, tabindex, or interaction behavior.
+Slotted links retain their native keyboard behavior.
+
+Check contrast after changing colors. Manually review screen-reader paragraph
+semantics, Windows high contrast, and 200% zoom; automated tests do not replace
+those checks. Other HTML elements, color props, rich-text parsing, and truncation are
+outside this version.
+
+</main>

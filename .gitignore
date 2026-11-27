@@ -6,8 +6,9 @@ dist/
 .env
 .env.*
 
-# Bun
-bun.lock
+# Generated output
+.artifacts/
+coverage/
 
 # OS
 .DS_Store

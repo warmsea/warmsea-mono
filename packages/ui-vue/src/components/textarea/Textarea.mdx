@@ -1,0 +1,59 @@
+import { Meta, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './Textarea.stories';
+
+<Meta of={Stories} name="Docs" />
+<main>
+
+# Textarea
+
+A controlled native multiline text field. The required `modelValue` is always a
+string; `update:modelValue` emits strings. Rejected edits restore the parent value.
+Composition is preserved through prop changes and commits once at composition end.
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+import { Textarea } from '@warmsea/ui-vue';
+const notes = ref('');
+</script>
+<template>
+  <Textarea v-model="notes" label="Notes" name="notes" required :rows="5" />
+</template>
+```
+
+## Props and native behavior
+
+<div
+  className="wui-docs-table"
+  role="region"
+  aria-label="Textarea props"
+  tabIndex={0}
+>
+  <ArgTypes of={Stories} />
+</div>
+
+`label`, `helpText`, `errorText`, `invalid`, `disabled`, `readonly`, and `id` are
+optional. Error text takes precedence over help and implies `aria-invalid`.
+External `aria-describedby` IDs are merged without duplicates.
+
+Class/style target the field wrapper. Other native attributes and listeners,
+including name, form, required, maxlength, placeholder, rows and keyboard events,
+reach the textarea. Rows defaults to three. Value, role and validation-description
+attributes remain component-owned. There are no slots or automatic validation.
+The exposed `focus()` focuses the native field.
+
+`appearance` defaults to `default`, the bordered field. Opt into `embedded`
+inside a consumer-owned surface to remove the ordinary border and background.
+Native focus-visible outlines, invalid borders, disabled text and forced-color
+boundaries remain visible. The consumer owns the outer surface and layout, not
+replacement control-state styles. An omitted label requires a native accessible
+name such as `aria-label`; a placeholder alone is not a label.
+
+Disabled fieldsets and readonly fields reject edits, including synthetic input.
+Parents own validation and form reset; cancel native reset and restore the model.
+Enter inserts a newline; applications own any submission shortcut and must respect
+IME composition. The field resizes vertically. Consumers load the public stylesheet
+and tokens explicitly. Test names, descriptions, zoom, forced colors and editing
+with assistive technology; automated checks are not a complete accessibility audit.
+
+</main>

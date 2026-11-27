@@ -1,0 +1,108 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { tokensWithPrefix } from './token-reference';
+
+<Meta title="Foundations/Typography" />
+
+<main>
+
+# Typography
+
+The default font stack is `"Roboto", "Segoe UI", system-ui, sans-serif`.
+It uses installed fonts in that order; no font files are bundled or loaded,
+and no CDN imports or `@font-face` declarations are added.
+Body text uses
+`--wui-font-size` (1rem) and `--wui-line-height` (unitless 1.25): 16px text
+with a 20px line at a 16px root. The browser/user or consuming app owns the
+root font size. Loading tokens does not style the document body or fix the root.
+Controls use `--wui-font-size-control` (0.875rem) and
+`--wui-line-height-control` (`round(140%, 2px)`): 14px text on a 20px
+line at a 16px root. Body and control roles can be overridden independently.
+The control line follows 140% of its font size, rounded to the nearest 2px.
+Tooltip remains body-sized. Headings retain their level-specific sizes and line-height.
+
+<div className="wui-docs-token-grid">
+  {tokensWithPrefix('--wui-font-size').map(({ name, value }) => (
+    <div key={name} className="wui-docs-token" data-token={name}>
+      <div
+        className="wui-docs-type-sample"
+        style={{
+          fontSize: `var(${name})`,
+          lineHeight:
+            name === '--wui-font-size-control'
+              ? 'var(--wui-line-height-control)'
+              : undefined,
+        }}
+      >
+        Set sail with Warmsea
+      </div>
+      <code>{name}</code>
+      <code>{value}</code>
+    </div>
+  ))}
+</div>
+
+## Supporting tokens
+
+<table>
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>Value from source</th>
+    </tr>
+  </thead>
+  <tbody>
+    {tokensWithPrefix('--wui-font-')
+      .filter(({ name }) => !name.startsWith('--wui-font-size'))
+      .concat(tokensWithPrefix('--wui-line-height'))
+      .map(({ name, value }) => (
+        <tr key={name}>
+          <td>
+            <code>{name}</code>
+          </td>
+          <td>
+            <code>{value}</code>
+          </td>
+        </tr>
+      ))}
+  </tbody>
+</table>
+
+## Consumer choices
+
+Override the family and relevant size tokens in your own scope. Provide an
+appropriate fallback stack and recheck long labels and zoom behavior. Changing
+typography changes content-sized control dimensions; there are no fixed
+clipping heights.
+
+## Heading, body and control roles
+
+Button, Select, and Input use the control roles. They add 5px of
+`--wui-control-padding-block` on each side of the line, plus borders.
+At a 16px root, bordered one-line controls are 32px high. Larger text grows
+the line and control while the 5px padding stays unchanged.
+Native controls can grow beyond that nominal height when the browser enforces
+larger font metrics; the requested line-height must not become a clipping box.
+
+Heading requires a numeric level from 1 to 6 and renders the corresponding native
+heading with its matching heading-size token. Choose level for document
+hierarchy, not appearance. Every level uses `--wui-font-weight-semibold` and
+`--wui-line-height-heading`. There is no separate size prop.
+
+Text keeps the 1rem body size and defaults to a paragraph with regular weight. It can render an inline span
+and supports regular/semibold weights, with no size prop. Button also has no
+size prop. Text uses `--wui-line-height` for body text. Semibold is a visual treatment; use
+semantic emphasis in slot content when meaning requires it.
+
+Both use `--wui-font-family` and `--wui-color-text`, reset margins to zero, and
+leave spacing to the consumer. Text wraps naturally without truncation or forced
+word-breaking. Use a span for inline text rather than nesting paragraphs.
+
+The existing `--wui-font-weight` remains the control weight. Override the new
+regular or semibold roles to change text independently of that Button weight.
+Scoped size, weight, color, and family overrides resolve on each component;
+they do not require a runtime theme manager.
+
+Components / Heading and Components / Text each provide Docs, a fixed
+Demos gallery, and a live Playground.
+
+</main>

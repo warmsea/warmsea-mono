@@ -1,0 +1,84 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import * as Stories from './ChatInput.stories';
+
+<Meta of={Stories} name="Docs" />
+<main>
+
+# ChatInput
+
+A controlled string-only prompt surface, composed from public Textarea and Button.
+It never chooses a model, encodes attachments, performs a request or clears a draft.
+
+## Public contract
+
+Required props: `modelValue: string`, `label: string`, `submitLabel: string` and
+`canSubmit: boolean`. `label` names the textarea without a permanent visible label;
+`submitLabel` names the native submit button and supplies its default content.
+
+Optional props: `disabled`, `readonly`, `placeholder`, `helpText`, `errorText`
+and `keyboardHint`. Help/error behavior comes from Textarea; error takes
+precedence and implies invalid. Keyboard guidance is visually hidden and linked
+to the textarea alongside external description IDs. Errors are announced once
+without repeating visible error text in another live region.
+
+`update:modelValue(value: string)` reports an edit. Rejected edits restore the
+parent value. `submit(value: string)` reports the unchanged controlled value:
+Enter without Shift and native form/button submission share disabled, readonly,
+fieldset and composition guards. Shift+Enter inserts a newline; IME Enter,
+including key code 229, never submits. `canSubmit` is application-owned, allowing
+attachment-only submissions; the component never infers eligibility from text.
+Native constraint validation, such as `required`, also applies to Enter.
+There is no automatic clearing, trimming or asynchronous acknowledgement API.
+
+`reset(event: Event)` reports the original reset event from the owned form,
+including a native reset button or `form.reset()`. ChatInput always prevents the
+native reset before notifying the consumer, retaining the controlled value.
+Use `@reset="draft = ''"` to accept a reset in the parent, or leave the model
+unchanged to retain it. `@reset.prevent` is supported but not required. Reset
+does not emit `update:modelValue`; consumer reset listeners are not forwarded
+to Textarea, and descendant reset events do not produce another notification.
+
+Slots: `attachments` above the field, `actions-start` before the flexible action
+area, `actions-end` before Submit and `submit-content` inside the native Submit
+button. Slots receive `disabled`, `canSubmit` and `isComposing` state. `disabled`
+includes readonly and a disabled ancestor fieldset; `canSubmit` includes all
+submission guards. Slot owners must honor these states. Replacing button content
+does not replace its type, accessible name or submission guards.
+Native fieldset state follows DOM ancestry changes, including Vue Teleport moves
+and the first-legend exemption; moving the same instance does not require a
+model edit or submit to refresh slot availability.
+
+Class/style target the form surface. Other native attributes/listeners target
+Textarea, including id, name, maxlength, rows and external aria-describedby.
+Rows defaults to two; role, value, accessible name and validation descriptions
+remain component-owned. The `form` attribute is reserved and not forwarded:
+Textarea must remain associated with the owned form so Enter and Send validate
+the same native controls. Use this component outside another form; it owns a
+native form and does not support nested forms or external form association.
+The exposed `focus()` targets the textarea; mounting never focuses it.
+
+## Sizing and styles
+
+Input uses embedded Textarea with body-sized text; UI-vue retains control states.
+The textarea grows and shrinks with the model, composition, width and font changes.
+It scrolls above the default 10rem cap; override
+`--wui-chat-input-max-block-size` in a consumer scope. The minimum is 3.5rem.
+Controls retain 44px minimum targets and may grow. All ordinary token overrides
+remain inherited, including nested primary, error, surface and typography roles.
+
+Load token CSS, ui-vue CSS, ui-ai CSS, then consumer overrides.
+
+## Application integration
+
+Keep file selection/encoding, restrictions, send/steer/queue modes, models,
+sessions, transport and draft state outside the component. Use slots for native
+file controls, attachment chips and extra actions. Only clear after application
+admission, and only when the current draft still matches the submitted snapshot.
+Retries retain the original request identity and content.
+
+The Demos and Playground show local-only controlled values, no model calls.
+Before release manually check screen-reader descriptions, focus, touch, high
+contrast and zoom. Browser checks and synthetic composition tests supplement
+but do not replace that review.
+
+</main>
