@@ -1,0 +1,56 @@
+{
+  "name": "@warmsea/octo-agent-sdk",
+  "version": "0.1.0",
+  "description": "Session-based chat provider contract and optional bidirectional bridge.",
+  "type": "module",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./bridge": {
+      "types": "./dist/bridge/index.d.ts",
+      "import": "./dist/bridge/index.js"
+    },
+    "./schemas/octo.agent.v1.json": "./dist/schemas/octo.agent.v1.json"
+  },
+  "scripts": {
+    "build": "node scripts/check-workspace.mjs build",
+    "build:self": "node scripts/check-workspace.mjs build-self",
+    "build:implementation": "tsc -p tsconfig.build.json && node scripts/schema.mjs",
+    "typecheck": "node scripts/check-workspace.mjs typecheck",
+    "typecheck:prepared": "node scripts/check-workspace.mjs typecheck",
+    "typecheck:implementation": "tsc --noEmit",
+    "test": "vitest run",
+    "test:implementation": "vitest run",
+    "test:prepared": "node scripts/check-workspace.mjs test",
+    "test:focused": "node scripts/check-workspace.mjs focused",
+    "workflow:inputs": "node scripts/check-workspace.mjs inputs",
+    "workflow:select": "node scripts/check-workspace.mjs select",
+    "check:local": "node scripts/check-workspace.mjs local",
+    "check:integration": "node scripts/check-workspace.mjs integration",
+    "check:code": "node scripts/check-workspace.mjs code",
+    "check": "node scripts/check-workspace.mjs full",
+    "check:ci": "node scripts/check-workspace.mjs ci",
+    "ci:setup": "node -e \"console.log('No external assets required.')\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --max-warnings 0",
+    "test:package": "bun tests/package.test.mjs"
+  },
+  "dependencies": {
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "eslint": "10.12.0",
+    "prettier": "3.9.10",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.2",
+    "vitest": "5.0.4"
+  }
+}
