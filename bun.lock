@@ -8,6 +8,22 @@
         "prettier": "3.9.10",
       },
     },
+    "packages/octo-agent-copilot": {
+      "name": "@warmsea/octo-agent-copilot",
+      "version": "0.1.0",
+      "dependencies": {
+        "@agentclientprotocol/sdk": "2.8.0",
+        "@warmsea/octo-agent-sdk": "workspace:^",
+      },
+      "devDependencies": {
+        "@types/node": "24.10.1",
+        "eslint": "10.12.0",
+        "prettier": "3.9.10",
+        "typescript": "6.0.3",
+        "typescript-eslint": "8.71.2",
+        "vitest": "5.0.4",
+      },
+    },
     "packages/octo-agent-sdk": {
       "name": "@warmsea/octo-agent-sdk",
       "version": "0.1.0",
@@ -105,6 +121,8 @@
   },
   "packages": {
     "@adobe/css-tools": ["@adobe/css-tools@4.5.0", "https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@adobe/css-tools/-/css-tools-4.5.0.tgz", {}, "sha1-tbcaJaTRavokglkt36YvzMYLx9E="],
+
+    "@agentclientprotocol/sdk": ["@agentclientprotocol/sdk@2.8.0", "https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@agentclientprotocol/sdk/-/sdk-2.8.0.tgz", { "peerDependencies": { "@modelcontextprotocol/server": "^2.4.0", "zod": "^3.25.76 || ^4.0.0" }, "optionalPeers": ["@modelcontextprotocol/server"] }, "sha512-EjsvoRX8nEH2z3PAVI2ILsVXAefVcSlLPeXGjlQoFgkJE71F2J0Fj7N6oL/k7SnP0vY+9hmONPFz/K2zalnTiw=="],
 
     "@asamuzakjp/css-color": ["@asamuzakjp/css-color@7.1.5", "https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@asamuzakjp/css-color/-/css-color-7.1.5.tgz", { "dependencies": { "@csstools/css-calc": "^3.4.3", "@csstools/css-color-parser": "^4.2.6", "@csstools/css-parser-algorithms": "^4.0.2", "@csstools/css-tokenizer": "^4.0.2", "lru-cache": "^11.5.3" } }, "sha512-jCpAvj8apa7SKHZYogk0rbXB3Kb0hLFrpkWF+Ap+vBA5rirItnpv9NKyAyEuDuFizvl0qwnj6JWR70RGJ0rOlw=="],
 
@@ -483,6 +501,8 @@
     "@vue/shared": ["@vue/shared@3.5.44", "https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@vue/shared/-/shared-3.5.44.tgz", {}, "sha512-H82XLH0DjmSOdbEwO15x3QTo1f5PWEtv237eLpYKc0mqLu+B8hnq16lFWmuBmNurkeiG3wr+oM1FhOll/YVFRg=="],
 
     "@vue/test-utils": ["@vue/test-utils@2.5.1", "https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@vue/test-utils/-/test-utils-2.5.1.tgz", { "dependencies": { "js-beautify": "^2.0.0", "vue-component-type-helpers": "^3.0.0" }, "peerDependencies": { "@vue/compiler-dom": "3.x", "@vue/server-renderer": "3.x", "vue": "3.x" }, "optionalPeers": ["@vue/server-renderer"] }, "sha512-V/4a99odJ7hapr0bRt35XxljGk8hefq31gSOnlKTcEq2fUeoj2qb+FcpJYfQu4qfYhW9Ug+O2+CZ3QmZ7gXDzA=="],
+
+    "@warmsea/octo-agent-copilot": ["@warmsea/octo-agent-copilot@workspace:packages/octo-agent-copilot"],
 
     "@warmsea/octo-agent-sdk": ["@warmsea/octo-agent-sdk@workspace:packages/octo-agent-sdk"],
 
