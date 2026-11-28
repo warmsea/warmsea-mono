@@ -17,7 +17,7 @@ export const Interactions: StoryObj = {
     },
     template: `<main class="wui-contract"><h1>Menu contracts</h1>
     <section aria-labelledby="actions-title" data-testid="menu-fixture">
-      <Heading id="actions-title" :level="2">Action menu</Heading>
+      <Heading id="actions-title" :level="2">Menu</Heading>
       <Button variant="default">Before actions</Button>
       <Menu
         label="Conversation actions"

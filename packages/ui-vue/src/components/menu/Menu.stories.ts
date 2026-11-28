@@ -28,6 +28,6 @@ export const Demos: Story = {
   render: () => ({
     components: { Menu, Text, Heading },
     setup: () => ({ selected: ref('None') }),
-    template: `<main><Heading :level="1">Action menu demos</Heading><Menu label="Conversation actions" :items="[{id:'rename',label:'Rename'},{id:'archive',label:'Archive'},{id:'delete',label:'Delete',disabled:true}]" @select="selected=$event.label">Actions</Menu><Text>Selected: {{ selected }}</Text></main>`,
+    template: `<main><Heading :level="1">Menu demos</Heading><Menu label="Conversation actions" :items="[{id:'rename',label:'Rename'},{id:'archive',label:'Archive'},{id:'delete',label:'Delete',disabled:true}]" @select="selected=$event.label">Actions</Menu><Text>Selected: {{ selected }}</Text></main>`,
   }),
 };

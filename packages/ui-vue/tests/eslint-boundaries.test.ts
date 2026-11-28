@@ -63,7 +63,7 @@ describe('package import boundaries', () => {
     "import '@warmsea/ui-ai';",
     "export * from '@warmsea/ui-ai';",
     "import('@warmsea/ui-ai/style.css');",
-    "type Composer = import('@warmsea/ui-ai').ChatInputProps;",
+    "type ChatInputProps = import('@warmsea/ui-ai').ChatInputProps;",
     "import '../../ui-tokens/src/index.css';",
     "export { tokens } from '../../ui-tokens/src/index';",
     "export * from '../../ui-tokens/src/index';",

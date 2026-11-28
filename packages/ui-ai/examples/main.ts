@@ -22,7 +22,7 @@ const NativeExample = defineComponent({
     const submitted = ref<string[]>([]);
     const resets = ref(0);
     const cancelled = ref(false);
-    const composer = () =>
+    const renderChatInput = () =>
       h(
         ChatInput,
         {
@@ -105,13 +105,16 @@ const NativeExample = defineComponent({
               h(
                 Teleport,
                 { to: `#native-destination-${destination.value}`, defer: true },
-                [composer()],
+                [renderChatInput()],
               ),
             ]
           : [
               h('fieldset', { disabled: query.has('fieldset') }, [
-                h('legend', query.has('legend') ? [composer()] : 'Prompt'),
-                ...(query.has('legend') ? [] : [composer()]),
+                h(
+                  'legend',
+                  query.has('legend') ? [renderChatInput()] : 'Prompt',
+                ),
+                ...(query.has('legend') ? [] : [renderChatInput()]),
               ]),
             ]),
         h(

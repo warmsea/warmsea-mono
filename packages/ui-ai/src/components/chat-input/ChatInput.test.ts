@@ -56,7 +56,7 @@ describe('ChatInput', () => {
         { attachTo: document.body },
       );
       wrappers.push(wrapper);
-      const composer = wrapper.findComponent(ChatInput);
+      const chatInput = wrapper.findComponent(ChatInput);
       const form = wrapper.get('form').element;
       let nativeEvent: Event | undefined;
       form.addEventListener('reset', (event) => {
@@ -66,15 +66,15 @@ describe('ChatInput', () => {
       await nextTick();
       expect(received).toEqual([nativeEvent]);
       expect(nativeEvent?.defaultPrevented).toBe(true);
-      expect(composer.emitted('reset')).toEqual([[nativeEvent]]);
-      expect(composer.emitted('update:modelValue')).toBeUndefined();
+      expect(chatInput.emitted('reset')).toEqual([[nativeEvent]]);
+      expect(chatInput.emitted('update:modelValue')).toBeUndefined();
       expect(wrapper.get('textarea').element.value).toBe(
         accept ? '' : props.modelValue,
       );
       await wrapper.get('textarea').trigger('reset');
       expect(received).toHaveLength(1);
       await wrapper.get('textarea').trigger('keydown', { key: 'Enter' });
-      expect(composer.emitted('submit')).toEqual([
+      expect(chatInput.emitted('submit')).toEqual([
         [accept ? '' : props.modelValue],
       ]);
     },
@@ -106,20 +106,20 @@ describe('ChatInput', () => {
         { attachTo: document.body },
       );
       wrappers.push(wrapper);
-      const composer = wrapper.findComponent(ChatInput);
-      const input = composer.get('textarea');
-      expect(input.element.form).toBe(composer.get('form').element);
+      const chatInput = wrapper.findComponent(ChatInput);
+      const input = chatInput.get('textarea');
+      expect(input.element.form).toBe(chatInput.get('form').element);
       expect(input.attributes('form')).toBeUndefined();
       await input.trigger('keydown', { key: 'Enter' });
-      await composer.get('form').trigger('submit');
-      expect(composer.emitted('submit')).toBeUndefined();
+      await chatInput.get('form').trigger('submit');
+      expect(chatInput.emitted('submit')).toBeUndefined();
     },
   );
   it.each([false, true])(
     'refreshes native slot state after local disabled transitions (first legend: %s)',
     async (legend) => {
       const disabled = ref(true);
-      const composer = () =>
+      const renderChatInput = () =>
         h(
           ChatInput,
           { ...props, disabled: disabled.value },
@@ -134,8 +134,8 @@ describe('ChatInput', () => {
       const wrapper = mount(
         () =>
           h('fieldset', { disabled: true }, [
-            h('legend', legend ? [composer()] : 'Prompt'),
-            ...(legend ? [] : [composer()]),
+            h('legend', legend ? [renderChatInput()] : 'Prompt'),
+            ...(legend ? [] : [renderChatInput()]),
           ]),
         { attachTo: document.body },
       );
@@ -325,7 +325,7 @@ describe('ChatInput', () => {
       attachTo: document.body,
     });
     wrappers.push(wrapper);
-    const composer = wrapper.findComponent(ChatInput);
+    const chatInput = wrapper.findComponent(ChatInput);
     const fieldset = wrapper.get('fieldset').element;
     fieldset.disabled = true;
     await nextTick();
@@ -334,7 +334,7 @@ describe('ChatInput', () => {
       wrapper.get('button[type="submit"]').attributes('disabled'),
     ).toBeDefined();
     await wrapper.get('form').trigger('submit');
-    expect(composer.emitted('submit')).toBeUndefined();
+    expect(chatInput.emitted('submit')).toBeUndefined();
     fieldset.disabled = false;
     await nextTick();
     await nextTick();
@@ -342,10 +342,10 @@ describe('ChatInput', () => {
       wrapper.get('button[type="submit"]').attributes('disabled'),
     ).toBeUndefined();
     expect(document.activeElement).not.toBe(wrapper.get('textarea').element);
-    composer.vm.focus();
+    chatInput.vm.focus();
     expect(document.activeElement).toBe(wrapper.get('textarea').element);
     await wrapper.get('form').trigger('submit');
-    expect(composer.emitted('submit')).toHaveLength(1);
+    expect(chatInput.emitted('submit')).toHaveLength(1);
   });
   it('links hint and error text with external descriptions and forwards native attributes', async () => {
     const wrapper = mount(ChatInput, {
