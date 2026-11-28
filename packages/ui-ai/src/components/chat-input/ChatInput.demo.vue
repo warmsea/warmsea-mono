@@ -17,13 +17,13 @@ function update(value: string) {
 </script>
 <template>
   <main
-    class="prompt-demo"
+    class="chat-input-demo"
     :style="
       enlarged ? { '--wui-font-size': '2rem', '--wui-line-height': '1.5' } : {}
     "
   >
-    <Heading :level="1">Prompt composer</Heading>
-    <div class="prompt-demo__controls">
+    <Heading :level="1">ChatInput demos</Heading>
+    <div class="chat-input-demo__controls">
       <Button variant="outlined" @click="disabled = !disabled"
         >Toggle disabled</Button
       >
@@ -60,7 +60,7 @@ function update(value: string) {
         >Toggle error</Button
       >
     </div>
-    <fieldset :disabled="fieldsetDisabled" class="prompt-demo__fieldset">
+    <fieldset :disabled="fieldsetDisabled" class="chat-input-demo__fieldset">
       <legend>Local-only prompt</legend>
       <ChatInput
         :model-value="draft"
@@ -91,24 +91,24 @@ function update(value: string) {
   </main>
 </template>
 <style>
-.prompt-demo {
+.chat-input-demo {
   display: grid;
   gap: var(--wui-space-3);
   max-inline-size: 48rem;
   padding: var(--wui-space-3);
 }
-.prompt-demo__controls {
+.chat-input-demo__controls {
   display: flex;
   flex-wrap: wrap;
   gap: var(--wui-space-2);
 }
-.prompt-demo__fieldset {
+.chat-input-demo__fieldset {
   min-inline-size: 0;
   border: 0;
   padding: 0;
   margin: 0;
 }
-.prompt-demo pre {
+.chat-input-demo pre {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
